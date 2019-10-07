@@ -1,45 +1,23 @@
 'use strict';
 
 function countSameElements(collection) {
-	let collectionDistinct = new Array();
-	let set = new Set();
 	let output = new Array();
 
-	for(let i = 0; i < collection.length; i++){
-		if(collectionDistinct.indexOf(collection[i]) < 0){
-			collectionDistinct.push(collection[i]);
-		}
-	}
+	collection.forEach(item =>{
+		let obj;
+		if(item.includes('-')){
+			let tempArr = item.split('-');	
+			output.push({key: tempArr[0], count: parseInt(tempArr[1])});
 
-	let ctr = 0;
-	for(let i = 0; i < collectionDistinct.length; i++){
-		ctr = 0;
-		for(let j = 0; j < collection.length; j++){
-			if(collection[j] == collectionDistinct[i]){
-				ctr++;
-			}
-		}
-		if(ctr > 0){
+		}else{
+			obj = output.find(({key}) => key == item);
+			if(!obj)
+				output.push({key: item, count: 1});
+			else
+				obj.count++;
 			
-			if(collectionDistinct[i].length > 1){
-				let temp = 0;
-				if(ctr > 1){
-					temp = ctr + +collectionDistinct[i].charAt(2)
-				}else{
-					temp = +collectionDistinct[i].charAt(2)
-				}
-
-				set.add({
-					key: collectionDistinct[i].charAt(0),
-					count: temp
-				});
-			}else{
-				set.add({
-					key: collectionDistinct[i],
-					count: ctr
-				});
-			}
 		}
-	}  
-	return Array.from(set);//'Implement the practice require, and begin changing code in this row';
+		
+	});
+	return output;//'Implement the practice require, and begin changing code in this row';
 }
